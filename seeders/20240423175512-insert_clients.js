@@ -1,6 +1,6 @@
 'use strict';
 
-const { defaultCategories } = require('../datas/categories');
+const { DEFAULT_CATEGORIES } = require('../datas/categories')
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -16,12 +16,12 @@ module.exports = {
     */
    const listOfCategories = []
 
-   defaultCategories.map(cat => {
-      listOfCategories.push({libelle:cat})
+   DEFAULT_CATEGORIES.map(cat => {
+      listOfCategories.push({libelle:cat,createdAt:new Date(),updatedAt: new Date()})
    })
 
    //insert datas
-   await queryInterface.bulkInsert('Categories', listOfCategories)
+   await queryInterface.bulkInsert('Categories', listOfCategories, {})
   },
 
   async down (queryInterface, Sequelize) {
@@ -33,3 +33,5 @@ module.exports = {
      */
   }
 };
+
+

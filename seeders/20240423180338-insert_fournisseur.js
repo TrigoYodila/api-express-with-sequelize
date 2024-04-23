@@ -13,14 +13,15 @@ module.exports = {
      * }], {});
     */
     await queryInterface.bulkInsert('Fournisseurs', [
-      {libelle:'Marsavco', adresse:'Kinshasa Gombe'},
-      {libelle:'Beltexco', adresse:'Gombe Kinshasa'},
-      { libelle:'Socimex', adresse:'Kalamu'}
-    ])
+      {libelle:'Marsavco', adresse:'Kinshasa Gombe',createdAt:new Date(),updatedAt: new Date()},
+      {libelle:'Beltexco', adresse:'Gombe Kinshasa',createdAt:new Date(),updatedAt: new Date()},
+      { libelle:'Socimex', adresse:'Kalamu',createdAt:new Date(),updatedAt: new Date()}
+    ], {})
   },
 
   async down (queryInterface, Sequelize) {
     /**
+     * 
      * Add commands to revert seed here.
      *
      * Example:
@@ -28,3 +29,5 @@ module.exports = {
      */
   }
 };
+
+

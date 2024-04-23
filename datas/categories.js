@@ -1,4 +1,4 @@
-export const defaultCategories = [
+exports.DEFAULT_CATEGORIES = [
     "ALIMENTAIRES",
     "PHARMACEUTIQUES",
     "HABILLEMENT"
