@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey:true,
       autoIncrement:true
     },
-    libelle: DataTypes.STRING
+    libelle: DataTypes.STRING,
+    adresse:DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Fournisseur',
