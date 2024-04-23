@@ -2,11 +2,16 @@
 
 ## Installation des dépendances
 
-pour installer les dépendaces, tapez la commande ci-dessous
+Pour installer les dépendaces, tapez la commande ci-dessous
 
 * npm install
 
 ## Configuration
 
-- créer un fichier config.json en se basant du modèle config.example.json
-- créer un fichier .env en se basant du modèle .env.example
+- Dans le dossier config, créer un fichier config.json en se basant du modèle config.example.json tout en renseignant les informations de votre base de donnée. 
+- créer un fichier .env à la racine en se basant du modèle .env.example tout en renseignant les informations de votre base de donnée.
+
+## Migrations
+
+Executer les migrations avec la commande suivante :
+* npx sequelize-cli db:migrate
