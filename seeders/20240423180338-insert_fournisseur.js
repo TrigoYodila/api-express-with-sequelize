@@ -13,9 +13,9 @@ module.exports = {
      * }], {});
     */
     await queryInterface.bulkInsert('Fournisseurs', [
-      {libelle:'Marsavco'},
-      {libelle:'Beltexco'},
-      { libelle:'Socimex'}
+      {libelle:'Marsavco', adresse:'Kinshasa Gombe'},
+      {libelle:'Beltexco', adresse:'Gombe Kinshasa'},
+      { libelle:'Socimex', adresse:'Kalamu'}
     ])
   },
 
