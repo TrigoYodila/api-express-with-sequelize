@@ -12,7 +12,6 @@ fs.createReadStream(path.resolve(__dirname,"../datas/clients.csv"))
     .on("end", () => {
         results.map(async (element) => {
             let client = element.client.split(';')
-            console.log("Data client ", client)
             await Client.create({
                 nom:client[0],
                 prenom:client[1],

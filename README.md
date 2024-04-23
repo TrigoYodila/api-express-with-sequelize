@@ -15,3 +15,13 @@ Pour installer les dépendaces, tapez la commande ci-dessous
 
 Executer les migrations avec la commande suivante :
 * npx sequelize-cli db:migrate
+
+## Seeders
+
+Exécuter les seeders avec la commande suivante :
+* npx sequelize-cli db:seed:all
+
+## helpers
+
+Executer le fichier generate_data_clients
+* node helpers\generate_data_clients.js
