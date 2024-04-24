@@ -1,9 +1,14 @@
 const express = require('express')
 
 const registerClient = (req, res,next) => {
-    res.json({message:"Hello World !"})
+    
+}
+
+const loginClient = (req, res, next) => {
+
 }
 
 module.exports = {
-    registerClient
+    registerClient,
+    loginClient
 }

@@ -8,7 +8,7 @@ const fournisseurRouter = require('./livraison')
 
 const router = express.Router()
 
-router.use('/users', clientRouter)
+router.use('/clients', clientRouter)
 router.use('/commandes', commandeRouter)
 router.use('/produits', produitRouter)
 router.use('/livraisons', livraisonRouter)
