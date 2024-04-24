@@ -3,6 +3,7 @@ const { registerClient } = require('../controllers/client.js')
 
 const router = express.Router()
 
-router.get('/', registerClient)
+router.post('/', registerClient)
+router.post('/login', )
 
 module.exports = router
