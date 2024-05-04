@@ -2,10 +2,12 @@ const express = require('express')
 // const bodyParser = require('body-parser')  
 const apiRoutes = require('./routes/index.js')
 const { errorHandler } = require('./middelware/error')
+const { connectDB } = require("./config/db.js")
+require('dotenv').config()
 
+connectDB()
 const app = express()
 
-const dotenv = require('dotenv').config()
 const port = process.env.PORT
 
 app.use(express.json())

@@ -2,7 +2,7 @@ const express = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
-const Client = require('../models/client')
+const  {Client} = require("../models/client.js")
 
 
 const registerClient = asyncHandler(async (req, res,next) => {
@@ -14,7 +14,10 @@ const registerClient = asyncHandler(async (req, res,next) => {
     }
 
     // check if client exists
-    const oldUser = await Client.findOne({email})
+    const oldUser = await Client.findOne({
+        where: {
+          email
+        }})
 
     if(oldUser){
         res.status(400)
@@ -36,11 +39,11 @@ const registerClient = asyncHandler(async (req, res,next) => {
 
     if(client){
         res.status(201).json({
-            id:client.usr_id,
+            id:client.cli_id,
             nom:client.nom,
             prenom:client.prenom,
             email:client.email,
-            token:generateToken(client.usr_id)
+            token:generateToken(client.cli_id)
         })
     }else{
         res.status(400)
@@ -48,9 +51,28 @@ const registerClient = asyncHandler(async (req, res,next) => {
     }
 })
 
-const loginClient = (req, res, next) => {
+const loginClient = asyncHandler(async (req, res, next) => {
+    const {email,password} = req.body
 
-}
+    const client = await Client.findOne({email})
+
+    //check pwd
+    const validPwd = await bcrypt.compare(password, client.password)
+
+    if(client && validPwd){
+        res.status(200).json({
+            id:client.cli_id,
+            nom:client.nom,
+            prenom:client.prenom,
+            email:client.email,
+            tel:client.tel,
+            token:generateToken(client.cli_id)
+        })
+    }else{
+        res.status(400)
+        throw new Error('email ou mot de passe incorrect')
+    }
+})
 
 const generateToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET_KEY,{expiresIn:'1d'})
