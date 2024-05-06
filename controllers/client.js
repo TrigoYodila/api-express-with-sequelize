@@ -2,8 +2,7 @@ const express = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
-const  {Client} = require("../models/client.js")
-
+const {Client} = require('../models')
 
 const registerClient = asyncHandler(async (req, res,next) => {
     const {nom,prenom,email,tel,password} = req.body
@@ -78,7 +77,12 @@ const generateToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET_KEY,{expiresIn:'1d'})
 }
 
+const getClient = () => {
+    
+}
+
 module.exports = {
     registerClient,
-    loginClient
+    loginClient,
+    getClient
 }
