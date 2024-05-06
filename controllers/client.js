@@ -77,12 +77,34 @@ const generateToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET_KEY,{expiresIn:'1d'})
 }
 
-const getClient = () => {
-    
-}
+const getAllClients = asyncHandler(async (req, res) => {
+    const clients = await Client.findAll()
+
+    if(clients.length === 0){
+        res.status(204).json(clients)
+    }
+
+    res.status(200).json(clients)
+})
+
+const getClient = asyncHandler(async (req, res) => {
+    const {id} = req.params
+
+    const client = await Client.findByPk(id)
+
+    if(!client){
+        res.status(400)
+        throw new Error('Le client n\'existe pas')
+    }
+
+    const {password, ...others } = client
+
+    res.status(200).json(others?.dataValues)
+})
 
 module.exports = {
     registerClient,
     loginClient,
-    getClient
+    getClient,
+    getAllClients
 }
