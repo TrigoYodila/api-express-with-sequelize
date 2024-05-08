@@ -3,49 +3,37 @@ const jwt = require('jsonwebtoken')
 const { Client } = require("../models")
 
 
-const protected = asyncHandler(async (req, res) => {
-    // let token
+const protected = asyncHandler(async (req, res,next) => {
+    let token
 
-    // if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
-    //     try {
-    //         // Get token in the header
-    //         token = req.headers.authorization.split(' ')[1]
+    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+        try {
+            // Get token in the header
+            token = req.headers.authorization.split(' ')[1]
 
-    //         //verify token
-    //         const decoded = jwt.verify(token,process.env.JWT_SECRET_KEY)
+            //verify token
+            const decoded = jwt.verify(token,process.env.JWT_SECRET_KEY)
 
-    //         //Get user 
-    //         req.user = await Client.findByPk(decoded.id).select('-password')
+            //Get user 
+            let client = await Client.findByPk(decoded.id)
+           
+            let {password, ...others} = client.dataValues
 
-    //         next()
+            req.client = others
 
-    //     } catch (error) {
-    //         res.status(401)
-    //         throw new Error('Non autorisé')
-    //     }
-    // }
-    
-    // if(!token){
-    //     res.json(401)
-    //     throw new Error('Non autorisée, token invalide')
-    // }
+            next()
 
-    const token = req.headers.authorization;
-
-    if (!token) {
-        return res.status(401).json({ message: 'Token non fourni' });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
-        if (err) {
-        return res.status(401).json({ message: 'Token invalide' });
+        } catch (error) {
+            console.log(error)
+            res.status(401)
+            throw new Error('Non autorisé')
         }
-
-        req.user = decoded;
-        next();
-    });
-
-
+    }
+    
+    if(!token){
+        res.json(401)
+        throw new Error('Non autorisée, token invalide')
+    }
 })
 
 module.exports = {protected}

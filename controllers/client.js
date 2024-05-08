@@ -74,6 +74,29 @@ const loginClient = asyncHandler(async (req, res, next) => {
     }
 })
 
+const updateClient = asyncHandler(async(req, res, next) => {
+    const {nom, postnom, prenom, tel} = req.body
+
+    const updatedClient = await Client.update({nom,postnom,prenom,tel},{where:{cli_id:req.client.cli_id}})
+
+    if(!updatedClient){
+        res.status(403)
+        throw new Error('Invalid data')
+    }
+
+    if(updatedClient){
+        let updateDataClient = await Client.findByPk(req.client.cli_id)
+        const {password,...others} = updateDataClient.dataValues
+        res.status(200).json(others)
+    }
+    
+})
+
+// const updatePasswordClient = asyncHandler(async(req,res,next)=>{
+//     const { oldPassword, newPassword} = req.body
+
+// })
+
 const generateToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET_KEY,{expiresIn:'1d'})
 }
@@ -89,23 +112,23 @@ const getAllClients = asyncHandler(async (req, res) => {
 })
 
 const getClient = asyncHandler(async (req, res) => {
-    const {id} = req.params
-
-    const client = await Client.findByPk(id)
+    // const {id} = req.params
+    const client = await Client.findByPk(req.client.cli_id)
 
     if(!client){
         res.status(400)
         throw new Error('Le client n\'existe pas')
     }
 
-    const {password, ...others } = client
+    const {password, ...others } = client?.dataValues
 
-    res.status(200).json(others?.dataValues)
+    res.status(200).json(others)
 })
 
 module.exports = {
     registerClient,
     loginClient,
     getClient,
-    getAllClients
+    getAllClients,
+    updateClient
 }
