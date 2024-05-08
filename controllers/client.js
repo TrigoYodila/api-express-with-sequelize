@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
 const {Client} = require('../models')
+const { where } = require('sequelize')
 
 const registerClient = asyncHandler(async (req, res,next) => {
     const {nom,prenom,email,tel,password} = req.body
@@ -53,7 +54,7 @@ const registerClient = asyncHandler(async (req, res,next) => {
 const loginClient = asyncHandler(async (req, res, next) => {
     const {email,password} = req.body
 
-    const client = await Client.findOne({email})
+    const client = await Client.findOne({where:{email}})
 
     //check pwd
     const validPwd = await bcrypt.compare(password, client.password)
