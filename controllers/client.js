@@ -92,10 +92,30 @@ const updateClient = asyncHandler(async(req, res, next) => {
     
 })
 
-// const updatePasswordClient = asyncHandler(async(req,res,next)=>{
-//     const { oldPassword, newPassword} = req.body
+const updatePasswordClient = asyncHandler(async(req,res,next)=>{
+    const { oldPassword, newPassword} = req.body
 
-// })
+    const client = await Client.findByPk(req.client.cli_id)
+
+    const isValidPassword = await bcrypt.compare(oldPassword, client.password)
+
+    if(!isValidPassword){
+        res.status(400)
+        throw new Error("Ancien mot de passe incorect !")        
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(newPassword, salt)
+
+    await Client.update({password:hashedPassword}, {
+        where:{
+           cli_id:req.client.cli_id 
+        }
+    })
+
+    return res.status(200).json({message:"Mot de passe modifié"})
+
+})
 
 const generateToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET_KEY,{expiresIn:'1d'})
@@ -130,5 +150,6 @@ module.exports = {
     loginClient,
     getClient,
     getAllClients,
-    updateClient
+    updateClient,
+    updatePasswordClient
 }
