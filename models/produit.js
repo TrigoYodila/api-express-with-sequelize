@@ -17,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
       Produit.hasMany(models.Commande,{
         foreignKey:'pro_id'
       })
+      Produit.hasMany(models.Livraison,{
+        foreignKey:'pro_id'
+      })
     }
   }
   Produit.init({
